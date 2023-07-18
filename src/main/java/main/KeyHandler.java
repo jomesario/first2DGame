@@ -89,7 +89,7 @@ public class KeyHandler implements KeyListener {
 						gp.playMusic(0);
 					}
 					//Back
-					if(gp.ui.commandNumb== 3) {
+					if(gp.ui.commandNumb== 3) {	
 						gp.ui.titleScreenState = 0;
 						gp.ui.commandNumb=0;
 					}
