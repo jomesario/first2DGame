@@ -110,8 +110,14 @@ public class Player extends Entity {
 	
 	public void interactNPC(int npcIndex) {
 		if (npcIndex != 999) {
-			System.out.println("Hitting NPC");
+			if(gp.keyH.enterPressed) {
+				gp.gameState=gp.dialogueState;
+				gp.npc[npcIndex].speak();
+			}
+			
 		}
+		gp.keyH.enterPressed = false;
+		
 	}
 
 	private boolean isAnyDirectionKeyPressed() {

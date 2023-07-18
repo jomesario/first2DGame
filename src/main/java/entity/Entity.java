@@ -27,9 +27,34 @@ public class Entity {
     public int solidAreaDefaultY;
     public boolean collisionOn=false;
     public int actionLockCounter =0;
+    String dialogues[] =new String[20];
+    public int dialogIndex = 0;
     
     public Entity(GamePanel gp) {
     	this.gp = gp;	
+    }
+    
+    public void speak() {
+    	if (dialogues[dialogIndex] == null) {
+			dialogIndex=0;
+		}
+		 gp.ui.currentDialog = dialogues[dialogIndex];	
+		 dialogIndex++;
+		 
+		 switch (gp.player.direction) {
+			 case "up":
+				 direction = "down";
+				 break;
+			 case "down":
+				 direction ="up";
+				 break;
+			 case "right":
+				 direction = "left";
+				 break;
+			 case "left":
+				 direction = "right";
+				 break;
+		 }
     }
     
     public BufferedImage setup(String imagePath) {

@@ -13,6 +13,7 @@ public class NPC_OldMan extends Entity{
 		direction = "down";
 		
 		getImage();
+		setDialog();
 	}
 	
 	public void getImage() {
@@ -48,9 +49,19 @@ public class NPC_OldMan extends Entity{
 			
 			actionLockCounter = 0;
 		}
+	}
+	
+	public void speak() {
+		super.speak();
 		
-		
-		
+		//Character specific stuff
+	}
+	
+	public void setDialog() {
+		dialogues[0] = "Hello my friend.";
+		dialogues[1] = "Así que has venido a la isla a \nencontrar el tesoro.";
+		dialogues[2] = "Solía ser un gran mago, pero ahora...\n soy un poco viejo para esas aventuras.";
+		dialogues[3] = "Suerte, y que quepa la prudencia en ti.";
 	}
 
 	
