@@ -94,10 +94,10 @@ public class TileManager {
 
 			int col = 0;
 			int row = 0;
-
+			System.out.println("Drawing map...");
 			while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
 				String line = br.readLine();
-				System.out.println("Line found " + line);
+				
 
 				while (col < gp.maxWorldCol) {
 					String numbers[] = line.split(" ");
@@ -116,6 +116,7 @@ public class TileManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Drawing Completed");
 	}
 
 	public void draw(Graphics2D g2) {

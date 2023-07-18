@@ -12,4 +12,10 @@ public class UtilityTool {
 		g2.dispose();
 		return scaledImage;
 	}
+	
+	public int getXForCenteredText(String text, Graphics2D g2, GamePanel gp) {
+		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+		int x = gp.screenWidth/2 - length/2;
+		return x;
+	}
 }
