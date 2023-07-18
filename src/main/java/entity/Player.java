@@ -74,7 +74,11 @@ public class Player extends Entity {
 			// Check Object Collision
 			int objIndex = gp.cChecker.checkObject(this, true);
 			pickUpObject(objIndex);
-
+			
+			//Check NPC Collision
+			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+			interactNPC(npcIndex);
+			
 			// If collision false player can move
 			if (!collisionOn) {
 				switch (direction) {
@@ -103,6 +107,12 @@ public class Player extends Entity {
 			}
 		}
 	}
+	
+	public void interactNPC(int npcIndex) {
+		if (npcIndex != 999) {
+			System.out.println("Hitting NPC");
+		}
+	}
 
 	private boolean isAnyDirectionKeyPressed() {
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -114,14 +124,14 @@ public class Player extends Entity {
 
 	public void getPlayerImage() {
 
-		up1 = setup("player/down_1");
-		up2 = setup("player/down_2");
-		down1 = setup("player/down_1");
-		down2 = setup("player/down_2");
-		left1 = setup("player/right_1");
-		left2 = setup("player/right_2");
-		right1 = setup("player/right_1");
-		right2 = setup("player/right_2");
+		up1 = setup("down_1");
+		up2 = setup("down_2");
+		down1 = setup("down_1");
+		down2 = setup("down_2");
+		left1 = setup("right_1");
+		left2 = setup("right_2");
+		right1 = setup("right_1");
+		right2 = setup("right_2");
 	}
 
 	public BufferedImage setup(String imageName) {
@@ -140,7 +150,7 @@ public class Player extends Entity {
 
 	public void pickUpObject(int index) {
 		if (index != 999) {
-			
+
 		}
 	}
 
@@ -172,7 +182,7 @@ public class Player extends Entity {
 				image = right2;
 			}
 		}
-		case "right" -> {	
+		case "right" -> {
 			if (spriteNum == 1) {
 				image = right1;
 			}
