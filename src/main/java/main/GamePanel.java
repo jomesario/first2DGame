@@ -34,8 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenColumns; //768 pixel
     public final int screenHeight = tileSize * maxScreenRows; //576 pixel
 
-    //System
-    
+    //SYSTEM
     TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
     Sound se = new Sound();
@@ -43,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter= new AssetSetter(this); 
     public UI ui = new UI(this);
+    public EventHandler eventHandler = new EventHandler(this);
     Thread gameThread;
     
     //GAME STATE
