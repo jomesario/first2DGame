@@ -136,12 +136,12 @@ public class Player extends Entity {
 
 	public void getPlayerImage() {
 
-		up1 = setup("down_1");
-		up2 = setup("down_2");
+		up1 = setup("up_1");
+		up2 = setup("up_2");
 		down1 = setup("down_1");
 		down2 = setup("down_2");
-		left1 = setup("right_1");
-		left2 = setup("right_2");
+		left1 = setup("left_1");
+		left2 = setup("left_2");
 		right1 = setup("right_1");
 		right2 = setup("right_2");
 	}
@@ -180,18 +180,18 @@ public class Player extends Entity {
 		}
 		case "down" -> {
 			if (spriteNum == 1) {
-				image = up1;
+				image = down1;
 			}
 			if (spriteNum == 2) {
-				image = up2;
+				image = down2;
 			}
 		}
 		case "left" -> {
 			if (spriteNum == 1) {
-				image = right1;
+				image = left1;
 			}
 			if (spriteNum == 2) {
-				image = right2;
+				image = left2;
 			}
 		}
 		case "right" -> {
