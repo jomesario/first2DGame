@@ -1,5 +1,8 @@
 package entity;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -83,6 +86,10 @@ public class Player extends Entity {
 			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 			interactNPC(npcIndex);
 			
+			//Check Monster Collision
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			contactMonster(monsterIndex);
+			
 			//Check Event 
 			gp.eventHandler.checkEvent();
 			
@@ -115,8 +122,27 @@ public class Player extends Entity {
 				spriteCounter = 0;
 			}
 		}
+		
+		//Needs to be outside of key if statement
+		if(invincible) {
+			invincibleCounter++;
+			if(invincibleCounter >60) {
+				invincible = false;
+				invincibleCounter = 0;
+			}
+		}
 	}
 	
+	public void contactMonster(int monsterIndex) {
+		if(monsterIndex != 999) {
+			if(!invincible) {
+				life -=1;
+				invincible= true;
+			}
+		}
+		
+	}
+
 	public void interactNPC(int npcIndex) {
 		if (npcIndex != 999) {
 			if(gp.keyH.enterPressed) {
@@ -204,7 +230,19 @@ public class Player extends Entity {
 		}
 		}
 
+		if(invincible) {
+			//70% transparent
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.3f));
+		}
+		
+		//RESET Alpha
+		
+		
 		g2.drawImage(image, screenX, screenY, null);
+		
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
+		//DEBUG 
+		
 	}
 
 }
