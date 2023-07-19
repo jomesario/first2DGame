@@ -89,7 +89,12 @@ public class EventHandler {
 		if (gp.keyH.enterPressed) {
 			gp.gameState = gameState;
 			gp.ui.currentDialog = "Tomaste agua!\n Tu vida se regeneró";
-			gp.player.life += 1;
+			if(gp.player.life >= gp.player.maxLife) {
+				gp.player.life= gp.player.maxLife;
+			}else{
+				gp.player.life += 1;
+			}
+			
 		}
 	}
 
