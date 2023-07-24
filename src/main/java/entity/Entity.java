@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.UtilityTool;
+import monster.MON_GreenSlime;
 
 public class Entity {
 	
@@ -33,11 +35,16 @@ public class Entity {
     public boolean invincible = false;
     public boolean collision= false;
     public boolean attacking = false;
+    public boolean alive = true;
+    public boolean dying = false;
+    public boolean hpBarOn= false;
     
     //COUNTER
     public int actionLockCounter =0;
     public int spriteCounter=0;
     public int invincibleCounter=0;
+    public int dyingCounter=0;
+    public int hpBarCounter=0;
     
     //CHARACTER ATTRIBUTES
     public int type; //0 player , 1 npc, 2 monster
@@ -91,6 +98,10 @@ public class Entity {
     	
     }
     
+    public void damageReaction() {
+    	
+    }
+    
     public void update() {
     	setAction();
     	
@@ -104,6 +115,7 @@ public class Entity {
     	if(this.type == 2 && contactPlayer) {
     		if(!gp.player.invincible) {
     			//We can give damage
+    			gp.playSE(6);
     			gp.player.life -=1;
     			gp.player.invincible=true;
     		}
@@ -176,13 +188,67 @@ public class Entity {
 				}
 				case "stop" -> {image = down1;}
 			}
+			
+			//Draw Monster Health bar if type =2(monster)
+			showMonsterHealthBar(g2,screenX,screenY);
+			
+
 			if (invincible) {
 				// 70% transparent
-				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+				hpBarOn = true;
+				hpBarCounter=0;
+				changeAlpha(g2, 0.4f);
+			}
+			
+			if (dying) {
+				image = dyingAnimation(g2);
 			}
 			g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 			
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+			changeAlpha(g2, 1f);
 		}
     }
+
+	private void showMonsterHealthBar(Graphics2D g2,int screenX, int screenY) {
+		if(type ==2 && hpBarOn) {
+			double oneScale = (double) gp.tileSize/maxLife;
+			double hpBarValue = oneScale*life;
+			
+			g2.setColor(new Color(35,35,35));
+			g2.fillRect(screenX-1,screenY-13,gp.tileSize+2,12);
+			
+			g2.setColor(new Color(255,0,30));
+			g2.fillRect(screenX,screenY-12,(int)hpBarValue, 10);		
+			
+			hpBarCounter++;
+			if(hpBarCounter >600 ) {
+				hpBarCounter=0;
+				hpBarOn=false;
+			}
+		}
+	}
+
+	private BufferedImage dyingAnimation(Graphics2D g2) {
+		dyingCounter++;
+		int i =12;
+		BufferedImage image = null;
+		
+		if(dyingCounter <= i) {image = MON_GreenSlime.dying1;}
+		if(dyingCounter > i && dyingCounter <= i*2) {image = MON_GreenSlime.dying2;}
+		if(dyingCounter > i*2 && dyingCounter <= i*3) {image = MON_GreenSlime.dying3;}
+		if(dyingCounter > i*3 && dyingCounter <= i*4) {image = MON_GreenSlime.dying4;}
+		if(dyingCounter > i*4 && dyingCounter <= i*5) {image = MON_GreenSlime.dying5;}
+		
+		if(dyingCounter > i*5) {
+			dying = false;
+			alive = false;
+		}
+		
+		return image;
+		
+	}
+	
+	public void changeAlpha(Graphics2D g2, float alphaValue) {
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
+	}
 }
