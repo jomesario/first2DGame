@@ -20,138 +20,159 @@ public class KeyHandler implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-
 		// Title state
 		if (gp.gameState == gp.titleState) {
-			//Title screen
-			if(gp.ui.titleScreenState == 0) {
-				switch (code) {
-				case KeyEvent.VK_W -> {
-					gp.ui.commandNumb--;
-					if (gp.ui.commandNumb < 0) {
-						gp.ui.commandNumb = 2;
-					}
-				}
-				case KeyEvent.VK_S -> {
-					gp.ui.commandNumb++;
-					if (gp.ui.commandNumb > 2) {
-						gp.ui.commandNumb = 0;
-					}
-				}
-				case KeyEvent.VK_ENTER ->{
-					//New game
-					if(gp.ui.commandNumb == 0) {
-						gp.ui.titleScreenState = 1;
-					}
-					//load game
-					if(gp.ui.commandNumb == 1){
-						//add later
-					}
-					//quit
-					if(gp.ui.commandNumb== 2) {
-						System.exit(0);
-					}
-				}
-				}
-			}
-			//Character creation screen
-			else if (gp.ui.titleScreenState == 1) {
-				switch (code) {
-				case KeyEvent.VK_W -> {
-					gp.ui.commandNumb--;
-					if (gp.ui.commandNumb < 0) {
-						gp.ui.commandNumb = 3;
-					}
-				}
-				case KeyEvent.VK_S -> {
-					gp.ui.commandNumb++;
-					if (gp.ui.commandNumb > 3) {
-						gp.ui.commandNumb = 0;
-					}
-				}
-				case KeyEvent.VK_ENTER ->{
-					//Fighter
-					if(gp.ui.commandNumb == 0) {
-						System.out.println("Fighter Specific stuff");
-						gp.gameState=gp.playState;
-						gp.playMusic(0);
-					}
-					//Sorcerer
-					if(gp.ui.commandNumb == 1){
-						System.out.println("Sorcerer Specific stuff");
-						gp.gameState=gp.playState;
-						gp.playMusic(0);
-					}
-					//Thief
-					if(gp.ui.commandNumb== 2) {
-						System.out.println("Thief Specific stuff");
-						gp.gameState=gp.playState;
-						gp.playMusic(0);
-					}
-					//Back
-					if(gp.ui.commandNumb== 3) {	
-						gp.ui.titleScreenState = 0;
-						gp.ui.commandNumb=0;
-					}
-				}
-				}
-			}
-			
+			// Title screen and character selection screen
+			tittleState(code);
 		}
-
 		// Play state
 		else if (gp.gameState == gp.playState) {
-			switch (code) {
-			case KeyEvent.VK_W -> upPressed = true;
-			case KeyEvent.VK_S -> downPressed = true;
-			case KeyEvent.VK_A -> leftPressed = true;
-			case KeyEvent.VK_D -> rightPressed = true;
-			case KeyEvent.VK_ENTER -> enterPressed = true;
-			case KeyEvent.VK_P -> {
-				gp.gameState = gp.pauseState;
-			}
-			case KeyEvent.VK_SPACE -> spacePressed = true;
-			case KeyEvent.VK_SHIFT -> shiftPressed = true;
-			case KeyEvent.VK_T -> {
-				if (checkDrawTime) {
-					checkDrawTime = false;
-				} else {
-					checkDrawTime = true;
-				}
-			}
-			}
+			playState(code);
 		}
-
 		// Pause state
 		else if (gp.gameState == gp.pauseState) {
-			switch (code) {
-			case KeyEvent.VK_P -> {
-				gp.gameState = gp.playState;
-			}
-			case KeyEvent.VK_T -> {
-				if (checkDrawTime) {
-					checkDrawTime = false;
-				} else {
-					checkDrawTime = true;
-				}
-			}
-			}
+			pauseState(code);
 		}
-
 		// Dialogue state
 		else if (gp.gameState == gp.dialogueState) {
+			dialogueState(code);
+		}
+		// Character state
+		else if (gp.gameState == gp.characterState) {
+			characterState(code);
+		}
+	}
+
+	public void tittleState(int code) {
+		if (gp.ui.titleScreenState == 0) {
 			switch (code) {
-			case KeyEvent.VK_ENTER -> gp.gameState = gp.playState;
-			case KeyEvent.VK_T -> {
-				if (checkDrawTime) {
-					checkDrawTime = false;
-				} else {
-					checkDrawTime = true;
+			case KeyEvent.VK_W -> {
+				gp.ui.commandNumb--;
+				if (gp.ui.commandNumb < 0) {
+					gp.ui.commandNumb = 2;
+				}
+			}
+			case KeyEvent.VK_S -> {
+				gp.ui.commandNumb++;
+				if (gp.ui.commandNumb > 2) {
+					gp.ui.commandNumb = 0;
+				}
+			}
+			case KeyEvent.VK_ENTER -> {
+				// New game
+				if (gp.ui.commandNumb == 0) {
+					gp.ui.titleScreenState = 1;
+				}
+				// load game
+				if (gp.ui.commandNumb == 1) {
+					// add later
+				}
+				// quit
+				if (gp.ui.commandNumb == 2) {
+					System.exit(0);
 				}
 			}
 			}
 		}
+		// Character creation screen
+		else if (gp.ui.titleScreenState == 1) {
+			switch (code) {
+			case KeyEvent.VK_W -> {
+				gp.ui.commandNumb--;
+				if (gp.ui.commandNumb < 0) {
+					gp.ui.commandNumb = 3;
+				}
+			}
+			case KeyEvent.VK_S -> {
+				gp.ui.commandNumb++;
+				if (gp.ui.commandNumb > 3) {
+					gp.ui.commandNumb = 0;
+				}
+			}
+			case KeyEvent.VK_ENTER -> {
+				// Fighter
+				if (gp.ui.commandNumb == 0) {
+					System.out.println("Fighter Specific stuff");
+					gp.gameState = gp.playState;
+					gp.playMusic(0);
+				}
+				// Sorcerer
+				if (gp.ui.commandNumb == 1) {
+					System.out.println("Sorcerer Specific stuff");
+					gp.gameState = gp.playState;
+					gp.playMusic(0);
+				}
+				// Thief
+				if (gp.ui.commandNumb == 2) {
+					System.out.println("Thief Specific stuff");
+					gp.gameState = gp.playState;
+					gp.playMusic(0);
+				}
+				// Back
+				if (gp.ui.commandNumb == 3) {
+					gp.ui.titleScreenState = 0;
+					gp.ui.commandNumb = 0;
+				}
+			}
+			}
+		}
+	}
 
+	public void playState(int code) {
+		switch (code) {
+		case KeyEvent.VK_W -> upPressed = true;
+		case KeyEvent.VK_S -> downPressed = true;
+		case KeyEvent.VK_A -> leftPressed = true;
+		case KeyEvent.VK_D -> rightPressed = true;
+		case KeyEvent.VK_ENTER -> enterPressed = true;
+		case KeyEvent.VK_P -> {
+			gp.gameState = gp.pauseState;
+		}
+		case KeyEvent.VK_C -> gp.gameState = gp.characterState;
+		case KeyEvent.VK_SPACE -> spacePressed = true;
+		case KeyEvent.VK_SHIFT -> shiftPressed = true;
+		case KeyEvent.VK_T -> {
+			if (checkDrawTime) {
+				checkDrawTime = false;
+			} else {
+				checkDrawTime = true;
+			}
+		}
+		}
+	}
+
+	public void pauseState(int code) {
+		switch (code) {
+		case KeyEvent.VK_P -> {
+			gp.gameState = gp.playState;
+		}
+		case KeyEvent.VK_T -> {
+			if (checkDrawTime) {
+				checkDrawTime = false;
+			} else {
+				checkDrawTime = true;
+			}
+		}
+		}
+	}
+
+	public void dialogueState(int code) {
+		switch (code) {
+		case KeyEvent.VK_ENTER -> gp.gameState = gp.playState;
+		case KeyEvent.VK_T -> {
+			if (checkDrawTime) {
+				checkDrawTime = false;
+			} else {
+				checkDrawTime = true;
+			}
+		}
+		}
+	}
+
+	public void characterState(int code) {
+		if (code == KeyEvent.VK_C) {
+			gp.gameState = gp.playState;
+		}
 	}
 
 	@Override

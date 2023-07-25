@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int pauseState = 2;
 	public final int dialogueState = 3;
 	public final int titleState = 0;
+	public final int characterState=4;
 
 	// Entity and Object
 	public Player player = new Player(this, keyH);
@@ -227,9 +228,9 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void playMusic(int i) {
-		music.setFile(i);
-		music.play();
-		music.loop();
+		//music.setFile(i);
+		//music.play();
+		//music.loop();
 	}
 
 	public void stopMusic() {

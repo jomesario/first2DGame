@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 
 public class Player extends Entity {
 
@@ -20,8 +22,9 @@ public class Player extends Entity {
 	public final int screenX;
 	public final int screenY;
 	int standCounter = 0;
+	public boolean attackCanceled=false;
 
-	//
+	
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp);
@@ -55,8 +58,26 @@ public class Player extends Entity {
 		direction = "down";
 
 		// PLAYER STATUS
+		level=1;
 		maxLife = 6;
 		life = maxLife;
+		strength =1; // the more strength the more damage
+		dexterity = 1; // the more dex the less damage receives
+		exp=0;
+		nextLevelExp= 5;
+		coin =0;
+		currentWeapon = new OBJ_Sword_Normal(gp);
+		currentShield = new OBJ_Shield_Wood(gp);
+		attack=getAttackValue();//total attack value is strength and weapon
+		defense=getDefenseValue();// total defense value is dex and shield
+	}
+
+	private int getDefenseValue() {
+		return attack = strength * currentWeapon.attackValue;
+	}
+
+	private int getAttackValue() {
+		return defense = dexterity * currentShield.defenseValue;
 	}
 
 	public void update() {
@@ -118,7 +139,14 @@ public class Player extends Entity {
 					break;
 				}
 			}
-
+			
+			if(keyH.enterPressed && !attackCanceled) {
+				gp.playSE(7);
+				attacking=true;
+				spriteCounter=0;
+			}
+			
+			attackCanceled=false;
 			gp.keyH.enterPressed = false;
 
 			spriteCounter++;
@@ -219,12 +247,10 @@ public class Player extends Entity {
 
 		if (gp.keyH.enterPressed) {
 			if (npcIndex != 999) {
+				attackCanceled = true;
 				gp.gameState = gp.dialogueState;
 				gp.npc[npcIndex].speak();
-			} else {
-				gp.playSE(7);
-				attacking = true;
-			}
+			}  
 		}
 	}
 

@@ -18,4 +18,10 @@ public class UtilityTool {
 		int x = gp.screenWidth/2 - length/2;
 		return x;
 	}
+	
+	public int getXForAlignToRightText(String text, Graphics2D g2, GamePanel gp,int tailX) {
+		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+		int x = tailX - length;
+		return x;
+	}
 }
